@@ -5,17 +5,10 @@ primary_monitor="HDMI-1"
 primary_monitor_resolution="1920x1080"
 primary_monitor_position="0x0"
 primary_monitor_rotate="normal"
-
 secondary_monitor="DP-1"
-if [ "$1" = "" ]; then
-	secondary_monitor_resolution="1366x768"
-	secondary_monitor_position="1920x312"
-	secondary_monitor_rotate="normal"
-else
-	secondary_monitor_resolution="1920x1080"
-	secondary_monitor_position="1920x0"
-	secondary_monitor_rotate="normal"
-fi
+secondary_monitor_resolution="1366x768"
+secondary_monitor_position="1920x312"
+secondary_monitor_rotate="normal"
 
 # Monitor #
 xrandr \
