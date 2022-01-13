@@ -1,0 +1,10 @@
+# Bar: Polybar
+# Notification daemon: Dunst
+# Application launcher: Rofi
+# Compositor: Picom
+# Cursor theme: Bibata Rainbow Modern (https://github.com/ful1e5/Bibata_Cursor_Rainbow)
+# Cursor theme size: 32
+# GTK icon theme: ACYLS - `#E8754F` (https://github.com/worron/ACYLS)
+# GTK & QT Font: Fira Code Regular
+# GTK theme: leftwm-brown
+# QT theme: KvLeftwmBrown

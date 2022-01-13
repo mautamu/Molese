@@ -1,0 +1,8 @@
+#!/bin/sh
+# shellcheck shell=sh # Written to be posix compatible
+
+CONFIG_DIR="/home/user/.config/leftwm"
+
+if [ -x "$(command -v leftwm-state)" ] && [ -f "$CONFIG_DIR"/template.liquid ]; then
+	leftwm-state -w 0 -t "$CONFIG_DIR"/template.liquid
+fi

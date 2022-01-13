@@ -1,0 +1,58 @@
+#!/bin/sh
+# shellcheck shell=sh # Written to be posix compatible
+# shellcheck disable=SC3044
+
+CONFIG_DIR="/home/user/.config/leftwm"
+WALLPAPER="$CONFIG_DIR/wallpapers/dark.png"
+
+# Down the last running theme
+if [ -f "/tmp/leftwm-theme-down" ]; then
+	/tmp/leftwm-theme-down
+	rm /tmp/leftwm-theme-down
+fi
+ln -s "$CONFIG_DIR"/down /tmp/leftwm-theme-down
+
+if [ -x "$(command -v leftwm)" ] && [ -f "$CONFIG_DIR"/theme.toml ]; then
+	leftwm command "LoadTheme $CONFIG_DIR/theme.toml"
+fi
+
+if [ -f "$CONFIG_DIR/monitor" ] && [ -x "$CONFIG_DIR/monitor" ]; then
+	"$CONFIG_DIR"/monitor
+fi
+
+if [ -x "$(command -v dunst)" ] && ! pgrep -x dunst >/dev/null; then
+	dunst &
+fi
+
+if [ -x "$(command -v feh)" ] && [ -f "$WALLPAPER" ]; then
+	feh --bg-fill "$WALLPAPER"
+fi
+
+if [ -x "$(command -v picom)" ] && ! pgrep -x picom >/dev/null; then
+	picom --experimental-backends -b --config "$CONFIG_DIR"/picom/picom.conf
+fi
+
+if [ -x "$(command -v polybar)" ] && ! pgrep -x polybar >/dev/null; then
+
+	printf "%s\n" "---" | tee -a /tmp/polybar0.log /tmp/polybar1.log
+
+	if [ -f "$CONFIG_DIR"/polybar/dp-config.ini ]; then
+		polybar -q main -c "$CONFIG_DIR"/polybar/dp-config.ini 2>&1 | tee -a /tmp/polybar0.log &
+		disown
+	fi
+
+	if [ -f "$CONFIG_DIR"/polybar/hdmi-config.ini ]; then
+		polybar -q main -c "$CONFIG_DIR"/polybar/hdmi-config.ini 2>&1 | tee -a /tmp/polybar1.log &
+		disown
+	fi
+fi
+
+if [ -x "$(command -v xset)" ]; then
+	xset s off
+	xset -dpms
+	xset s noblank
+fi
+
+if [ -x "$(command -v notify-send)" ]; then
+	notify-send "LeftWM" "Welcome Back!!" -t 1900
+fi

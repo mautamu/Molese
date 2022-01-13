@@ -1,0 +1,25 @@
+#!/bin/sh
+# shellcheck shell=sh # Written to be posix compatible
+
+CONFIG_DIR="/home/user/.config/leftwm"
+
+killall_if_running() {
+	if [ -x "$(command -v "$1")" ] && pgrep -x "$1" >/dev/null; then
+		killall "$1"
+	fi
+}
+
+if [ -x "$(command -v leftwm)" ] && [ -f "$CONFIG_DIR"/theme.toml ]; then
+	leftwm command "UnloadTheme"
+fi
+
+if [ -x "$(command -v feh)" ] && [ -f "$CONFIG_DIR"/misc/down.png ]; then
+	feh --bg-fill "$CONFIG_DIR"/misc/down.png
+fi
+
+if [ -x "$(command -v polybar)" ]; then
+	polybar-msg cmd quit
+fi
+
+killall_if_running "picom"
+killall_if_running "dunst"

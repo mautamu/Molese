@@ -1,0 +1,19 @@
+{% for tag in workspace.tags %}
+{% if tag.mine %}
+%{A1:/home/user/.config/leftwm/scripts/change_to_tag {{workspace.index}} {{tag.index}}:}
+%{T1}%{F#E8754F}{{tag.name}}%{F#FFFFFF}· %{F-}
+%{A}
+{% elsif tag.visible %}
+%{A1:/home/user/.config/leftwm/scripts/change_to_tag {{workspace.index}} {{tag.index}}:}
+%{T1}%{F#AD8070}{{tag.name}}%{F#FFFFFF}· %{F-}
+%{A}
+{% elsif tag.busy %}
+%{A1:/home/user/.config/leftwm/scripts/change_to_tag {{workspace.index}} {{tag.index}}:}
+%{T1}%{F#FFFFFF}{{tag.name}}· %{F-}
+%{A}
+{% else tag.visible %}
+%{A1:/home/user/.config/leftwm/scripts/change_to_tag {{workspace.index}} {{tag.index}}:}
+%{T1}%{F#FFFFFF}{{tag.name}} %{F-}
+%{A}
+{% endif %}
+{% endfor %}

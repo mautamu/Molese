@@ -1,0 +1,6 @@
+polybar
+rofi
+picom
+feh
+dunst
+xset

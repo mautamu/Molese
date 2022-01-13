@@ -1,0 +1,46 @@
+#!/bin/sh
+# shellcheck shell=sh # Written to be posix compatible
+# shellcheck disable=SC3010,SC3037
+
+# Exit the script if anything returns a non-true value
+set -e
+
+INPUT=$(echo -e "\uf011 Shut Down\n\uf1ce Reboot" | rofi -i -dmenu -p "Power" -config /home/user/.config/leftwm/rofi/configs/power.rasi)
+
+if [[ ${INPUT} == " Shut Down" ]]; then
+	ACTION="shutdown"
+elif [[ ${INPUT} == " Reboot" ]]; then
+	ACTION="reboot"
+else
+	exit 0
+fi
+
+if [[ ${ACTION} == "shutdown" ]]; then
+	CONFIRMATION=$(echo -e "\uf011 Shut Down\n\uf071 Cancel" | rofi -i -dmenu -p "Power" -config /home/user/.config/leftwm/rofi/configs/power.rasi)
+elif [[ ${ACTION} == "reboot" ]]; then
+	CONFIRMATION=$(echo -e "\uf1ce Reboot\n\uf071 Cancel" | rofi -i -dmenu -p "Power" -config /home/user/.config/leftwm/rofi/configs/power.rasi)
+else
+	exit 0
+fi
+
+if [[ ${CONFIRMATION} == " Cancel" ]]; then
+	exit 0
+fi
+
+if [[ ${ACTION} == "shutdown" ]]; then
+	notify-send "System" "Shutting Down within 10 seconds"
+	sleep 10
+	notify-send "WARNING" "Shutting Down the System"
+	sleep 1
+	sync
+	systemctl poweroff
+elif [[ ${ACTION} == "reboot" ]]; then
+	notify-send "System" "Rebooting within 10 seconds"
+	sleep 10
+	notify-send "WARNING" "Rebooting the System"
+	sleep 1
+	sync
+	systemctl reboot
+else
+	exit 1
+fi
