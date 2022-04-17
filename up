@@ -54,5 +54,5 @@ if [ -x "$(command -v xset)" ]; then
 fi
 
 if [ -x "$(command -v notify-send)" ]; then
-	notify-send "LeftWM" "Welcome Back!!" -t 1900
+	notify-send "LeftWM" "Welcome Back!" -t 1900
 fi
